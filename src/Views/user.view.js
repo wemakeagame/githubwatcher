@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from "react"
 import { connect } from "react-redux"
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom"
 import "./user.view.scss"
-
 import { searchProject } from "../Reducers/github.reducer"
 
 export class UserView extends Component {
@@ -13,6 +12,14 @@ export class UserView extends Component {
     }
 
     render() {
+
+        if(!this.props.token) {
+            return <div className="container user-detail">
+                <p>You need set the authentication token...</p>
+                <Link to="/" className="btn btn-primary">Back</Link>
+            </div>
+        }
+
         if (this.props.userInfo.owner) {
             const info = this.props.userInfo;
 
@@ -34,7 +41,8 @@ const mapStoreToProps = function (store) {
     return {
         userInfo: store.userInfo,
         repositories: store.repositories,
-        searchText: store.searchText
+        searchText: store.searchText,
+        token: store.token
     };
 }
 

@@ -1,15 +1,22 @@
-import React, { Component } from 'react'
+import React, { Component } from "react"
 import { connect } from "react-redux"
 import Moment from "react-moment"
-import { Link } from 'react-router-dom'
-
-import { searchProject } from "../Reducers/github.reducer"
+import { Link } from "react-router-dom"
+import { searchProject, setToken} from "../Reducers/github.reducer"
+import {registerToken} from "../Config/apollo.client"
 import "./project.view.scss"
 
 export class ProjectsView extends Component {
     constructor(props) {
         super(props);
-        this.state = { searchText: this.props.searchText };
+        this.state = { searchText: this.props.searchText, token: '' };
+
+        if (this.props.match.params.token) {
+            let token = this.props.match.params.token;
+
+            registerToken(token);
+            this.props.dispatch(setToken(token));
+        }
 
         this.searchRepositories = this.searchRepositories.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
@@ -26,9 +33,19 @@ export class ProjectsView extends Component {
         event.preventDefault();
     }
 
+    addTokenToClient() {
+        registerToken(this.state.token);
+        this.props.dispatch(setToken(this.state.token));
+    }
+
     handleSearchChange(event) {
         this.setState({ searchText: event.target.value });
     }
+
+    handleTokenChange(event) {
+        this.setState({ token: event.target.value });
+    }
+
     renderRepository(repository) {
         const repo = repository.node;
         const detailPath = "/user/" + repo.owner.login + "/" + repo.id;
@@ -53,6 +70,24 @@ export class ProjectsView extends Component {
         const repos = this.props.repositories;
         const mappedRepositories = repos.length ? repos.map(repository => this.renderRepository(repository)) : <div className="no-repo-msg">No repositories</div>;
 
+        if (!this.props.token) {
+            return <div className="no-token-msg container">
+                <p>you need to have a token to access</p>
+                <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/" rel="">See how to create the token</a>
+
+                <div className="token-form form-group">
+                    <form >
+                        <label>
+                            <input className="form-control" type="text" value={this.state.token} onChange={this.handleTokenChange.bind(this)} placeholder="Add the token here..." />
+                        </label>
+                        <button className="btn btn-primary" onClick={this.addTokenToClient.bind(this)} >Access</button>
+                    </form>
+                </div>
+
+            </div>
+        }
+
+
         return <div className="content container repositories">
             <h2 className="alert alert-info">Github Watcher</h2>
             <div className="search-form form-group">
@@ -73,7 +108,8 @@ export class ProjectsView extends Component {
 const mapStoreToProps = function (store) {
     return {
         searchText: store.searchText,
-        repositories: store.repositories
+        repositories: store.repositories,
+        token: store.token
     };
 }
 

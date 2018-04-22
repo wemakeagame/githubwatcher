@@ -1,10 +1,11 @@
 import gql from "graphql-tag";
-import { client } from '../Config/apollo.client';
+import { client } from "../Config/apollo.client";
 
 export default function githubReducer(
     state = {
         repositories: [],
         userInfo: {},
+        token: '',
         searchText: '',
         error: null
     }, action) {
@@ -18,6 +19,9 @@ export default function githubReducer(
         }
         case "CLEAR_SEARCH": {
             return { ...state, repositories: [] }
+        }
+        case "SET_TOKEN": {
+            return { ...state, token: action.token }
         }
         default: {
             return state
@@ -38,6 +42,13 @@ function getUserInfo(data, repoId) {
 export function clearSearch() {
     return {
         type: "CLEAR_SEARCH"
+    }
+}
+
+export function setToken(token) {
+    return {
+        type: "SET_TOKEN",
+        token: token
     }
 }
 
