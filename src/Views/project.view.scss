@@ -1,0 +1,53 @@
+.repositories {
+    text-align: center;
+    
+    h2 {
+        padding: 30px;
+        font-size: 25px;
+    }
+    .search-form {
+        border-bottom: 1px solid #ccc;
+    
+        form {
+            padding-bottom: 10px;
+
+            button {
+                margin-left: 10px;
+                vertical-align: top;
+            }
+        }
+
+    }
+
+    .list-repositories {
+        .no-repo-msg {
+            margin: auto;
+        }
+        .repository-item {
+            background-color: #f1f8f9;
+            margin: 5px;
+            padding: 10px;
+            border: 1px solid rgb(238, 238, 238);
+            border-radius: 15px;
+
+            .btn-light {
+                height: 25px;
+                font-size: 15px;
+                padding: 0 10px;
+                background-color: #fff;
+            }
+
+            .repository-name {
+                font-weight: 600;
+
+                .creation-date {
+                    font-weight: 300;
+                    padding: 5px;
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+}
+        
+

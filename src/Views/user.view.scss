@@ -1,0 +1,30 @@
+.user-detail {
+    text-align: center;
+    background-color: #ffffff;
+    margin: 15px;
+
+    .user {
+        background-color: #f1f8f9;
+        max-width: 300px;
+        margin: auto;
+
+        .user-name {
+            font-weight: 600;
+            font-size: 30px;
+            color: #928405;
+        }
+    }
+
+    .loading-msg {
+        margin: auto;
+    }
+
+    img {
+        max-width: 150px;
+        height: auto;
+        padding: 15px;
+        background: #fff;
+        border:  1px solid rgb(235, 235, 235);
+        margin: 15px;
+    }
+}
